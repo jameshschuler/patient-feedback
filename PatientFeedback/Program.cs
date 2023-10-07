@@ -5,7 +5,7 @@ using PatientFeedback.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -14,7 +14,6 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Environment.IsDevelopment() ? builder.Configuration.GetConnectionString("PatientFeedbackDatabase") : 
     Environment.GetEnvironmentVariable("TODO:")!;
 
-// Add services to the container.
 builder.Services.AddDbContext<PatientFeedbackContext>(options =>
     options.UseNpgsql(connectionString));
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -35,5 +34,11 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(policy => policy
+    .SetIsOriginAllowed(origin => true)
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
 
 app.Run();

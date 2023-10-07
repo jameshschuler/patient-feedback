@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: #d8dce8;
+}
+
+.btn {
+    @apply font-bold py-3 px-6 rounded-md;
+    min-width: 120px;
+}
+
+.loadable {
+    @apply bg-gray-200 rounded-full animate-pulse;
+}

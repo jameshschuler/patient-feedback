@@ -59,6 +59,7 @@ public class AppointmentService : IAppointmentService
         if (appointment is null)
         {
             response.ErrorCode = ErrorCode.NotFound;
+            response.ErrorMessage = $"Appointment [{appointmentId}] not found";
             return response;
         }
         
@@ -66,11 +67,12 @@ public class AppointmentService : IAppointmentService
         var questions = 
             appointment.AppointmentFeedback.AppointmentFeedbackQuestions
                 .Select(afq => afq.ToAppointmentFeedbackQuestionResponse()).ToList();
-
+        
         response.Data = new GetAppointmentFeedbackResponse(appointment.Id.ToString(), 
             appointment.AppointmentType, 
             appointment.Status, 
-            appointment.AppointmentFeedback.Id.ToString(), 
+            appointment.AppointmentFeedback.Id.ToString(),
+            appointment.AppointmentFeedback.SubmittedDate,
             questions);
         return response;
     }

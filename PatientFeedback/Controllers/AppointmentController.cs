@@ -45,7 +45,7 @@ public class AppointmentController : ControllerBase
 
             if (appointmentFeedbackResponse.ErrorCode is ErrorCode.NotFound)
             {
-                return NotFound();
+                return NotFound(appointmentFeedbackResponse);
             }
             
             return Ok(appointmentFeedbackResponse);
