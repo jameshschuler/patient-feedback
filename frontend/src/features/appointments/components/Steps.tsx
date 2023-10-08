@@ -7,11 +7,19 @@ interface StepsProps {
 }
 
 export function Steps({ currentStep, steps }: StepsProps) {
-  console.log(currentStep);
-
   return (
-    <div className="min-h-[300px]">
-      <Step text={steps[currentStep - 1].text} />
-    </div>
+    <form className="min-h-[300px]">
+      {steps &&
+        steps.map(({ order, questionType, text }: StepData) => {
+          return (
+            <Step
+              questionType={questionType}
+              text={text}
+              visible={currentStep === order}
+              key={order}
+            />
+          );
+        })}
+    </form>
   );
 }

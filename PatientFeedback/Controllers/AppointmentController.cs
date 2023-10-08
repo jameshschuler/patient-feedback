@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PatientFeedback.DTOs.Enums;
+using PatientFeedback.DTOs.Request;
 using PatientFeedback.DTOs.Response;
 using PatientFeedback.Services;
 
@@ -54,5 +55,12 @@ public class AppointmentController : ControllerBase
         {
             return Problem(statusCode: 500);
         }
+    }
+
+    [HttpPost("feedback")]
+    public async Task<ActionResult> SaveAppointmentFeedback([FromBody] SaveFeedbackRequest request)
+    {
+        // TODO: looks up all AppointmentFeedbackQuestion records given an appointment id and adds a FeedbackAnswer record
+        return Ok();
     }
 }

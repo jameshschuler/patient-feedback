@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using PatientFeedback.DTOs;
 using PatientFeedback.DTOs.Enums;
 using PatientFeedback.Entities;
 
@@ -139,19 +138,22 @@ public class PatientFeedbackContext : DbContext
             new ()
             {
                 Id = question1Id,
-                Text = "Hi {key=patient_first_name}, on a scale of 1-10, would you recommend Dr {key=doctor_last_name} to a friend or family member? 1 = Would not recommend, 10 = Would strongly recommend",
+                QuestionName = "DoctorRecommendRating",
+                Text = "Hi {patient_first_name}, on a scale of 1-10, would you recommend Dr. {doctor_last_name} to a friend or family member? 1 = Would not recommend, 10 = Would strongly recommend",
                 QuestionType = QuestionType.Scale
             },
             new ()
             {
                 Id = question2Id,
-                Text = "Thank you. You were diagnosed with {key=diagnosis}. Did Dr {key=doctor_last_name} explain how to manage this diagnosis in a way you could understand?",
+                QuestionName = "HelpfulDiagnosisExplanation",
+                Text = "Thank you. You were diagnosed with {diagnosis}. Did Dr. {doctor_last_name} explain how to manage this diagnosis in a way you could understand?",
                 QuestionType = QuestionType.YesNo
             },
             new ()
             {
                 Id = question3Id,
-                Text = "We appreciate the feedback, one last question: how do you feel about being diagnosed with {key=diagnosis}?",
+                QuestionName = "DiagnosisReflection",
+                Text = "We appreciate the feedback, one last question: how do you feel about being diagnosed with {diagnosis}?",
                 QuestionType = QuestionType.Text
             },
         });

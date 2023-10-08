@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PatientFeedback;
@@ -11,9 +12,11 @@ using PatientFeedback;
 namespace PatientFeedback.Migrations
 {
     [DbContext(typeof(PatientFeedbackContext))]
-    partial class PatientFeedbackContextModelSnapshot : ModelSnapshot
+    [Migration("20231008040632_UpdatingModelAndSeedData")]
+    partial class UpdatingModelAndSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +51,9 @@ namespace PatientFeedback.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3a9d44ef-ef88-40c7-94d0-acbc8f7cf5c2"),
+                            Id = new Guid("dba2dee6-fc5c-42f7-8c4e-7262b807393b"),
                             AddressType = "home",
-                            PatientId = new Guid("875192dc-9831-4549-bf05-e03c3d94c14d"),
+                            PatientId = new Guid("62179558-da5c-4a06-9050-8148a08fb5c5"),
                             StreetAddress = "2222 Home Street"
                         });
                 });
@@ -92,12 +95,12 @@ namespace PatientFeedback.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e739d74c-ee9a-418a-9b73-8ba33ade3dd8"),
+                            Id = new Guid("d3af5d90-3c97-4870-9e29-b037bf630d76"),
                             AppointmentType = "Endocrinologist visit",
-                            DoctorId = new Guid("0595a169-c30b-4643-b6ab-a0fb015dfccf"),
-                            End = new DateTime(2023, 10, 8, 7, 14, 34, 909, DateTimeKind.Utc).AddTicks(770),
-                            PatientId = new Guid("875192dc-9831-4549-bf05-e03c3d94c14d"),
-                            Start = new DateTime(2023, 10, 8, 5, 14, 34, 909, DateTimeKind.Utc).AddTicks(770),
+                            DoctorId = new Guid("23efd273-bcfe-443f-ad1a-b625e612dff1"),
+                            End = new DateTime(2023, 10, 8, 6, 6, 32, 373, DateTimeKind.Utc).AddTicks(8240),
+                            PatientId = new Guid("62179558-da5c-4a06-9050-8148a08fb5c5"),
+                            Start = new DateTime(2023, 10, 8, 4, 6, 32, 373, DateTimeKind.Utc).AddTicks(8240),
                             Status = "finished"
                         });
                 });
@@ -124,8 +127,8 @@ namespace PatientFeedback.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a345de57-4482-407f-98e8-1a809cf8f59f"),
-                            AppointmentId = new Guid("e739d74c-ee9a-418a-9b73-8ba33ade3dd8")
+                            Id = new Guid("0bc3b7fb-c5e9-4016-9d26-51ad552b1685"),
+                            AppointmentId = new Guid("d3af5d90-3c97-4870-9e29-b037bf630d76")
                         });
                 });
 
@@ -160,23 +163,23 @@ namespace PatientFeedback.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a0020c7f-9622-4378-aff4-1a8b70a14c18"),
-                            AppointmentFeedbackId = new Guid("a345de57-4482-407f-98e8-1a809cf8f59f"),
-                            FeedbackQuestionId = new Guid("2b48810a-3c83-4c85-96cd-5afa1c5f2c04"),
+                            Id = new Guid("b43d87ed-9523-41f5-926a-9ba159514928"),
+                            AppointmentFeedbackId = new Guid("0bc3b7fb-c5e9-4016-9d26-51ad552b1685"),
+                            FeedbackQuestionId = new Guid("6f3b8e33-3f09-46f2-b121-49b5aa881dad"),
                             Order = 1
                         },
                         new
                         {
-                            Id = new Guid("94464071-897b-486c-b4ab-ad5298ea4707"),
-                            AppointmentFeedbackId = new Guid("a345de57-4482-407f-98e8-1a809cf8f59f"),
-                            FeedbackQuestionId = new Guid("3c03fc88-71bf-40a1-b108-95a894ee3b2c"),
+                            Id = new Guid("6e197cc9-e121-4374-89ce-a8372b3d148a"),
+                            AppointmentFeedbackId = new Guid("0bc3b7fb-c5e9-4016-9d26-51ad552b1685"),
+                            FeedbackQuestionId = new Guid("fad52f3e-8681-4f5b-b8c3-e2cbf93d6c69"),
                             Order = 2
                         },
                         new
                         {
-                            Id = new Guid("8cd18acd-b2c3-4ed6-9be8-5b12ddac9f4b"),
-                            AppointmentFeedbackId = new Guid("a345de57-4482-407f-98e8-1a809cf8f59f"),
-                            FeedbackQuestionId = new Guid("c0ba5f72-8efa-4ea3-9b31-48de48b5b94e"),
+                            Id = new Guid("61b6e832-243b-4ef4-a017-8d5562f55ee3"),
+                            AppointmentFeedbackId = new Guid("0bc3b7fb-c5e9-4016-9d26-51ad552b1685"),
+                            FeedbackQuestionId = new Guid("2dc8dbe5-5c94-49a7-a49a-d23cc63b9494"),
                             Order = 3
                         });
                 });
@@ -211,9 +214,9 @@ namespace PatientFeedback.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f6d0043c-0ac1-4bc3-9404-bbcde50deedc"),
+                            Id = new Guid("babef60f-0ea9-40db-b237-b3247ac4172d"),
                             Code = "E10-E14.9",
-                            DiagnosisId = new Guid("9e398841-bb67-4764-932f-415be8789275"),
+                            DiagnosisId = new Guid("08fb0cb9-b60e-4540-a34a-207a2f202a77"),
                             Name = "Diabetes without complications",
                             System = "http://hl7.org/fhir/sid/icd-10"
                         });
@@ -247,18 +250,18 @@ namespace PatientFeedback.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8e944b7e-e1e8-47c3-841d-b2fc1c56ce89"),
+                            Id = new Guid("2a758473-4b8e-4bdd-94af-d7eb337d1aa7"),
                             ContactSystem = 1,
                             ContactType = 1,
-                            PatientId = new Guid("875192dc-9831-4549-bf05-e03c3d94c14d"),
+                            PatientId = new Guid("62179558-da5c-4a06-9050-8148a08fb5c5"),
                             Value = "tendo@tendoco.com"
                         },
                         new
                         {
-                            Id = new Guid("0fc14ca8-c50c-43c0-8afc-6784a437f656"),
+                            Id = new Guid("5eea83a8-3120-4122-a216-a84447c824f1"),
                             ContactSystem = 0,
                             ContactType = 0,
-                            PatientId = new Guid("875192dc-9831-4549-bf05-e03c3d94c14d"),
+                            PatientId = new Guid("62179558-da5c-4a06-9050-8148a08fb5c5"),
                             Value = "555-555-2021"
                         });
                 });
@@ -288,9 +291,9 @@ namespace PatientFeedback.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9e398841-bb67-4764-932f-415be8789275"),
-                            AppointmentId = new Guid("e739d74c-ee9a-418a-9b73-8ba33ade3dd8"),
-                            LastUpdated = new DateTime(2023, 10, 8, 5, 14, 34, 909, DateTimeKind.Utc).AddTicks(910),
+                            Id = new Guid("08fb0cb9-b60e-4540-a34a-207a2f202a77"),
+                            AppointmentId = new Guid("d3af5d90-3c97-4870-9e29-b037bf630d76"),
+                            LastUpdated = new DateTime(2023, 10, 8, 4, 6, 32, 373, DateTimeKind.Utc).AddTicks(8370),
                             Status = "Final"
                         });
                 });
@@ -316,7 +319,7 @@ namespace PatientFeedback.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0595a169-c30b-4643-b6ab-a0fb015dfccf"),
+                            Id = new Guid("23efd273-bcfe-443f-ad1a-b625e612dff1"),
                             FamilyName = "Careful",
                             GivenName = "Adam"
                         });
@@ -361,24 +364,24 @@ namespace PatientFeedback.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2b48810a-3c83-4c85-96cd-5afa1c5f2c04"),
+                            Id = new Guid("6f3b8e33-3f09-46f2-b121-49b5aa881dad"),
                             QuestionName = "DoctorRecommendRating",
                             QuestionType = 1,
-                            Text = "Hi {patient_first_name}, on a scale of 1-10, would you recommend Dr {doctor_last_name} to a friend or family member? 1 = Would not recommend, 10 = Would strongly recommend"
+                            Text = "Hi {key=patient_first_name}, on a scale of 1-10, would you recommend Dr {key=doctor_last_name} to a friend or family member? 1 = Would not recommend, 10 = Would strongly recommend"
                         },
                         new
                         {
-                            Id = new Guid("3c03fc88-71bf-40a1-b108-95a894ee3b2c"),
+                            Id = new Guid("fad52f3e-8681-4f5b-b8c3-e2cbf93d6c69"),
                             QuestionName = "HelpfulDiagnosisExplanation",
                             QuestionType = 0,
-                            Text = "Thank you. You were diagnosed with {diagnosis}. Did Dr {doctor_last_name} explain how to manage this diagnosis in a way you could understand?"
+                            Text = "Thank you. You were diagnosed with {key=diagnosis}. Did Dr {key=doctor_last_name} explain how to manage this diagnosis in a way you could understand?"
                         },
                         new
                         {
-                            Id = new Guid("c0ba5f72-8efa-4ea3-9b31-48de48b5b94e"),
+                            Id = new Guid("2dc8dbe5-5c94-49a7-a49a-d23cc63b9494"),
                             QuestionName = "DiagnosisReflection",
                             QuestionType = 2,
-                            Text = "We appreciate the feedback, one last question: how do you feel about being diagnosed with {diagnosis}?"
+                            Text = "We appreciate the feedback, one last question: how do you feel about being diagnosed with {key=diagnosis}?"
                         });
                 });
 
@@ -413,9 +416,9 @@ namespace PatientFeedback.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("875192dc-9831-4549-bf05-e03c3d94c14d"),
+                            Id = new Guid("62179558-da5c-4a06-9050-8148a08fb5c5"),
                             Active = true,
-                            BirthDate = new DateTime(1998, 10, 8, 5, 14, 34, 909, DateTimeKind.Utc).AddTicks(670),
+                            BirthDate = new DateTime(1998, 10, 8, 4, 6, 32, 373, DateTimeKind.Utc).AddTicks(8150),
                             FamilyName = "Tenderson",
                             Gender = "Male",
                             GivenName = "Tendo"

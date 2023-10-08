@@ -1,6 +1,8 @@
+using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using PatientFeedback.DTOs.Enums;
 using PatientFeedback.DTOs.Response;
+using PatientFeedback.DTOs.ViewModels;
 
 namespace PatientFeedback.Services;
 
@@ -14,6 +16,10 @@ public interface IAppointmentService
 public class AppointmentService : IAppointmentService
 {
     private readonly PatientFeedbackContext _context;
+    private Regex _rx = new (@"{.*?}",
+        RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    // (?<=\{)[^}]*(?=\})
+    // {.*?}
     
     public AppointmentService(PatientFeedbackContext context)
     {
@@ -35,6 +41,7 @@ public class AppointmentService : IAppointmentService
         var response = new ApiResponse<GetAppointmentResponse>();
         if (appointment is null)
         {
+            response.ErrorMessage = $"Unable to load the specified Appointment [{appointmentId}].";
             response.ErrorCode = ErrorCode.NotFound;
             return response;
         }
@@ -45,35 +52,53 @@ public class AppointmentService : IAppointmentService
             appointment.Diagnoses.Select(d => d.ToDiagnosisResponse()).ToList());
         return response;
     }
-    
+
     public async Task<ApiResponse<GetAppointmentFeedbackResponse>> GetAppointmentFeedback(string appointmentId)
     {
         var response = new ApiResponse<GetAppointmentFeedbackResponse>();
         
         var appointment = await _context.Appointments!
-            .Include(appt => appt.AppointmentFeedback)
-            .ThenInclude(af => af.AppointmentFeedbackQuestions)
-            .ThenInclude(afq => afq.FeedbackQuestion)
+            .Include(appt => appt.Patient)
+            .Include(appt => appt.Doctor)
+            .Include(appt => appt.Diagnoses)
+                .ThenInclude(d => d.Codings)            .Include(appt => appt.AppointmentFeedback)
+                .ThenInclude(af => af.AppointmentFeedbackQuestions)
+                .ThenInclude(afq => afq.FeedbackQuestion)
             .FirstOrDefaultAsync(appt => appt.Id.ToString() == appointmentId);
         
         if (appointment is null)
         {
             response.ErrorCode = ErrorCode.NotFound;
-            response.ErrorMessage = $"Appointment [{appointmentId}] not found";
+            response.ErrorMessage = $"Unable to load the specified Appointment [{appointmentId}].";
             return response;
         }
         
-        // TODO: replace placeholders with actual data
-        var questions = 
-            appointment.AppointmentFeedback.AppointmentFeedbackQuestions
-                .Select(afq => afq.ToAppointmentFeedbackQuestionResponse()).ToList();
+        var lookupKeys = new Dictionary<string, string>
+        {
+            {"{patient_first_name}", appointment.Patient.GivenName},
+            {"{doctor_last_name}", appointment.Doctor.FamilyName},
+            {"{diagnosis}", appointment.Diagnoses.First().Codings.First().Name} // TODO: 
+        };
+        
+        var questionViewModels = new List<AppointmentFeedbackQuestionResponse>();
+        foreach (var question in appointment.AppointmentFeedback.AppointmentFeedbackQuestions.OrderBy(afq => afq.Order))
+        {
+            var questionText = question.FeedbackQuestion.Text;
+            foreach (Match match in _rx.Matches(questionText))
+            {
+                questionText = questionText.Replace(match.Value, lookupKeys[match.Value]);
+            }
+
+            question.FeedbackQuestion.Text = questionText;
+            questionViewModels.Add(question.ToAppointmentFeedbackQuestionResponse());
+        }
         
         response.Data = new GetAppointmentFeedbackResponse(appointment.Id.ToString(), 
             appointment.AppointmentType, 
             appointment.Status, 
             appointment.AppointmentFeedback.Id.ToString(),
             appointment.AppointmentFeedback.SubmittedDate,
-            questions);
+            questionViewModels);
         return response;
     }
 }

@@ -22,6 +22,6 @@ public class AppointmentFeedbackQuestion
 
     public AppointmentFeedbackQuestionResponse ToAppointmentFeedbackQuestionResponse()
     {
-        return new AppointmentFeedbackQuestionResponse(FeedbackQuestion.Text, FeedbackQuestion.QuestionType, Order);
+        return new AppointmentFeedbackQuestionResponse(FeedbackQuestionId.ToString(), FeedbackQuestion.QuestionName, FeedbackQuestion.Text, FeedbackQuestion.QuestionType, Order);
     }
 }

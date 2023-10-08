@@ -2,6 +2,8 @@ export interface StepData {
   text: string;
   order: number;
   questionType: QuestionType;
+  questionId: string;
+  questionName: string;
 }
 
 export enum QuestionType {
@@ -22,5 +24,17 @@ export interface AppointmentFeedbackResponse {
 export interface Question {
   text: string;
   order: number;
+  questionId: string;
   questionType: QuestionType;
+  questionName: string;
+}
+
+export interface SaveFeedbackRequest {
+  appointmentId: string;
+  questionAnswers: Array<FeedbackQuestionAnswer>;
+}
+
+export interface FeedbackQuestionAnswer {
+  appointmentFeedbackQuestionId: string;
+  value: string;
 }
