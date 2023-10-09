@@ -163,7 +163,7 @@ public class AppointmentService : IAppointmentService
         
         // questionId => question answer
         var questionAnswers = questionViewModels
-            .Select(afq => new QuestionAnswerResponse(afq.Text, answers[afq.QuestionId] ))
+            .Select(afq => new QuestionAnswerResponse(afq.Text, string.IsNullOrWhiteSpace(answers[afq.QuestionId]) ? "Not Provided" : answers[afq.QuestionId]!))
             .ToList();
         
         response.Data = new SaveAppointmentFeedbackResponse(questionAnswers);

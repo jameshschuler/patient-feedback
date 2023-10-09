@@ -22,6 +22,7 @@ public class AppointmentFeedbackQuestion
 
     public AppointmentFeedbackQuestionResponse ToAppointmentFeedbackQuestionResponse()
     {
-        return new AppointmentFeedbackQuestionResponse(FeedbackQuestionId.ToString(), FeedbackQuestion.QuestionName, FeedbackQuestion.Text, FeedbackQuestion.QuestionType, Order, FeedbackAnswer?.Value);
+        return new AppointmentFeedbackQuestionResponse(FeedbackQuestionId.ToString(), 
+            FeedbackQuestion.QuestionName, FeedbackQuestion.Text, FeedbackQuestion.QuestionType, Order, FeedbackAnswer?.Value ?? "Not Provided");
     }
 }

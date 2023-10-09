@@ -42,16 +42,12 @@ export function FeedbackForm({
     }
   }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { isValid },
-  } = useForm();
+  const { register, handleSubmit, formState } = useForm({ mode: "onChange" });
 
   const createMutation = useCreateAppointmentFeedback();
 
   const handleSaveFeedback = async (fieldData: any) => {
-    if (!isValid || !fieldData) {
+    if (Object.keys(formState.errors).length !== 0) {
       // TODO: show error
       return;
     }
@@ -132,6 +128,10 @@ export function FeedbackForm({
                   type="submit"
                   className="btn bg-green-200 hover:bg-green-400 disabled:bg-gray-100"
                   onClick={handleSaveFeedback}
+                  disabled={
+                    createMutation.isLoading ||
+                    Object.keys(formState.errors).length !== 0
+                  }
                 >
                   Submit
                 </button>

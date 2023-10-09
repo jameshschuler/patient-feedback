@@ -1,3 +1,3 @@
 namespace PatientFeedback.DTOs.ViewModels;
 
-public record QuestionAnswerResponse(string Question, string? Answer);
+public record QuestionAnswerResponse(string Question, string Answer);
