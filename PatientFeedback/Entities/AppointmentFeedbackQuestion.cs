@@ -18,10 +18,10 @@ public class AppointmentFeedbackQuestion
     
     public Guid? FeedbackAnswerId { get; set; }
 
-    public virtual FeedbackAnswer? FeedbackAnswer { get; set; } = null!;
+    public virtual FeedbackAnswer? FeedbackAnswer { get; set; }
 
     public AppointmentFeedbackQuestionResponse ToAppointmentFeedbackQuestionResponse()
     {
-        return new AppointmentFeedbackQuestionResponse(FeedbackQuestionId.ToString(), FeedbackQuestion.QuestionName, FeedbackQuestion.Text, FeedbackQuestion.QuestionType, Order);
+        return new AppointmentFeedbackQuestionResponse(FeedbackQuestionId.ToString(), FeedbackQuestion.QuestionName, FeedbackQuestion.Text, FeedbackQuestion.QuestionType, Order, FeedbackAnswer?.Value);
     }
 }

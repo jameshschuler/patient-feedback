@@ -2,8 +2,7 @@ import { AppointmentFeedbackWizard } from "../components/AppointmentFeedbackWiza
 
 export function AppointmentFeedback() {
   return (
-    <div className="m-20">
-      <h1 className="text-3xl">Patient Appointment Feedback</h1>
+    <div className="md:m-20 sm:m-0">
       <AppointmentFeedbackWizard />
     </div>
   );

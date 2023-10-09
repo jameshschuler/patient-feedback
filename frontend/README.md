@@ -1,3 +1,17 @@
+# TODOs:
+
+[ ] Review feedback step
+[ ] Some form validation
+[ ] Form input styling (scale, yes/no)
+[ ] Save feedback in db
+[ ] What happens after feedback is saved? Redirect somewhere!
+[ ] Display success message
+[ ] Unit Test
+[ ] Integration Test
+[ ] Architecture diagram
+[ ] Bonus: read only view after feedback is submitted
+[ ] Bonus: animations between steps
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

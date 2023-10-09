@@ -2,18 +2,20 @@ import { Skeleton } from "@/shared";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateAppointmentFeedback } from "../api/createAppointmentFeedback";
-import { SaveFeedbackRequest, StepData } from "../types";
+import { QuestionAnswer, SaveFeedbackRequest, StepData } from "../types";
 import { Step } from "./Step";
 
 interface FeedbackFormProps {
   appointmentId: string;
   loading: boolean;
   steps: StepData[];
+  onSuccess: (questionAnswers: QuestionAnswer[]) => void;
 }
 
 export function FeedbackForm({
   appointmentId,
   loading,
+  onSuccess,
   steps,
 }: FeedbackFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
@@ -40,29 +42,32 @@ export function FeedbackForm({
     }
   }
 
-  // TODO: need to show overview component / step at end
-
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm();
 
   const createMutation = useCreateAppointmentFeedback();
 
   const handleSaveFeedback = async (fieldData: any) => {
-    if (isValid && fieldData) {
-      const request: SaveFeedbackRequest = {
-        appointmentId: appointmentId!,
-        questionAnswers: Object.keys(fieldData).map((key: string) => {
-          return {
-            appointmentFeedbackQuestionId: key,
-            value: fieldData[key] ? fieldData[key] : null,
-          };
-        }),
-      };
-      const r = await createMutation.mutateAsync(request);
-      console.log(r);
+    if (!isValid || !fieldData) {
+      // TODO: show error
+      return;
+    }
+
+    const request: SaveFeedbackRequest = {
+      appointmentId: appointmentId!,
+      questionAnswers: Object.keys(fieldData).map((key: string) => {
+        return {
+          appointmentFeedbackQuestionId: key,
+          value: fieldData[key] ?? null,
+        };
+      }),
+    };
+    const response = await createMutation.mutateAsync(request);
+    if (response.status === 201) {
+      onSuccess(response.data.data.questionAnswers);
     }
   };
 
@@ -77,35 +82,41 @@ export function FeedbackForm({
         className="min-h-[300px]"
         onSubmit={handleSubmit(handleSaveFeedback)}
       >
-        <div className="min-h-[300px]">
-          {steps.length !== 0 &&
-            steps.map(({ order, questionId, questionType, text }: StepData) => {
-              return (
-                <Step
-                  key={questionId}
-                  visible={currentStep === order}
-                  questionType={questionType}
-                  register={register}
-                  name={questionId}
-                  text={text}
-                />
-              );
-            })}
-        </div>
+        <Skeleton loading={loading} height="min-h-[200px]">
+          <div className="min-h-[300px]">
+            {steps.length !== 0 &&
+              steps.map(
+                ({ order, questionId, questionType, text }: StepData) => {
+                  return (
+                    <Step
+                      key={questionId}
+                      visible={currentStep === order}
+                      questionType={questionType}
+                      register={register}
+                      name={questionId}
+                      text={text}
+                    />
+                  );
+                }
+              )}
+          </div>
+        </Skeleton>
         <Skeleton loading={loading} height="h-12">
           <div className="flex justify-between items-center">
             <button className="btn bg-slate-100 hover:bg-slate-300">
               Cancel
             </button>
             <div>
-              <button
-                type="button"
-                className="btn bg-blue-100 hover:bg-blue-300 mr-4 disabled:bg-gray-100"
-                disabled={!hasPrevStep}
-                onClick={handlePrevStep}
-              >
-                Previous
-              </button>
+              {hasPrevStep && (
+                <button
+                  type="button"
+                  className="btn bg-blue-100 hover:bg-blue-300 mr-4 disabled:bg-gray-100"
+                  onClick={handlePrevStep}
+                >
+                  Previous
+                </button>
+              )}
+
               {hasNextStep && (
                 <button
                   type="button"
@@ -122,7 +133,7 @@ export function FeedbackForm({
                   className="btn bg-green-200 hover:bg-green-400 disabled:bg-gray-100"
                   onClick={handleSaveFeedback}
                 >
-                  Finish
+                  Submit
                 </button>
               )}
             </div>

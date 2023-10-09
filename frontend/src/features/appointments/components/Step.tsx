@@ -22,7 +22,7 @@ export function Step({
       <p>{text}</p>
       <div className="py-6 ml-4">
         {questionType === QuestionType.Scale && (
-          <ScaleInput name={name} register={register} />
+          <ScaleInput name={name} register={register} min={1} max={10} />
         )}
         {questionType === QuestionType.Text && (
           <TextInput name={name} register={register} />

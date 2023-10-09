@@ -2,15 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+    height: 100%
+}
+
 body {
-    background-color: #d8dce8;
+    @apply bg-gray-100;
 }
 
 .btn {
-    @apply font-bold py-3 px-6 rounded-md;
+    @apply font-bold py-3 px-6 rounded-md text-gray-700;
     min-width: 120px;
+    letter-spacing: 2px;
 }
 
 .loadable {
-    @apply bg-gray-200 rounded-full animate-pulse;
+    @apply bg-gray-200 rounded-lg animate-pulse;
 }

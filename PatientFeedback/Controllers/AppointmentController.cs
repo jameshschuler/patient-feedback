@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using PatientFeedback.DTOs.Enums;
 using PatientFeedback.DTOs.Request;
 using PatientFeedback.DTOs.Response;
+using PatientFeedback.DTOs.ViewModels;
 using PatientFeedback.Services;
 
 namespace PatientFeedback.Controllers;
@@ -58,9 +59,22 @@ public class AppointmentController : ControllerBase
     }
 
     [HttpPost("feedback")]
-    public async Task<ActionResult> SaveAppointmentFeedback([FromBody] SaveFeedbackRequest request)
+    public async Task<ActionResult<SaveAppointmentFeedbackResponse>> SaveAppointmentFeedback([FromBody] SaveFeedbackRequest request)
     {
-        // TODO: looks up all AppointmentFeedbackQuestion records given an appointment id and adds a FeedbackAnswer record
-        return Ok();
+        try
+        {
+            var response = await _appointmentService.SaveAppointmentFeedback(request);
+
+            return response.ErrorCode switch
+            {
+                ErrorCode.NotFound => NotFound(response),
+                ErrorCode.BadRequest => BadRequest(response),
+                _ => Created(new Uri($"/appointment/{request.AppointmentId}/feedback"), response)
+            };
+        }
+        catch (Exception)
+        {
+            return Problem(statusCode: 500);
+        }
     }
 }

@@ -27,6 +27,7 @@ export interface Question {
   questionId: string;
   questionType: QuestionType;
   questionName: string;
+  value?: string;
 }
 
 export interface SaveFeedbackRequest {
@@ -37,4 +38,13 @@ export interface SaveFeedbackRequest {
 export interface FeedbackQuestionAnswer {
   appointmentFeedbackQuestionId: string;
   value: string;
+}
+
+export interface SaveFeedbackResponse {
+  questionAnswers: Array<QuestionAnswer>;
+}
+
+export interface QuestionAnswer {
+  question: string;
+  answer: string;
 }

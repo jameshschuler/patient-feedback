@@ -9,7 +9,7 @@ interface SkeletonProps {
 export function Skeleton({ children, height, loading }: SkeletonProps) {
   return (
     <>
-      {loading && <div className={`loadable ${height ?? "h-6"}`}></div>}
+      {loading && <div className={`loadable my-6 ${height ?? "h-6"}`}></div>}
       {!loading && children}
     </>
   );

@@ -11,8 +11,7 @@ export function TextInput({ name, register }: TextInputProps) {
       <textarea
         rows={6}
         className="w-full border border-black rounded-lg p-4"
-        required
-        {...register(name, { required: true, minLength: 1 })}
+        {...register(name)}
       ></textarea>
     </fieldset>
   );
