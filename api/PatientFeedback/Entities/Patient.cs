@@ -20,6 +20,8 @@ public class Patient
 
     public ICollection<Contact> Contacts { get; set; } = new List<Contact>();
 
+    public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+
     public PatientResponse ToPatientResponse()
     {
         var contacts = Contacts.Select(c => c.ToContactResponse()).ToList();

@@ -14,6 +14,7 @@ describe("AppointmentFeedbackWizard", () => {
     ).toBeInTheDocument();
   });
 
+  // TODO: not mocking request / response correctly
   it("makes request to get appointment feedback questions", async () => {
     const appointmentId = "64f1b5a0-1f6e-4e59-ae95-a94b34e5619";
     const scope = nock("https://localhost:7115/api/")

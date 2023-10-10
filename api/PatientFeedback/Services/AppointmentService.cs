@@ -15,6 +15,8 @@ public interface IAppointmentService
     Task<ApiResponse<GetAppointmentFeedbackResponse>> GetAppointmentFeedback(string appointmentId);
 
     Task<ApiResponse<SaveAppointmentFeedbackResponse>> SaveAppointmentFeedback(SaveFeedbackRequest request);
+
+    Task<ApiResponse<GetAppointmentsResponse>> GetAppointments(string patientId);
 }
 
 public class AppointmentService : IAppointmentService
@@ -167,6 +169,30 @@ public class AppointmentService : IAppointmentService
             .ToList();
         
         response.Data = new SaveAppointmentFeedbackResponse(questionAnswers);
+        return response;
+    }
+
+    public async Task<ApiResponse<GetAppointmentsResponse>> GetAppointments(string patientId)
+    {
+        var response = new ApiResponse<GetAppointmentsResponse>();
+
+        var patient = await _context.Patients!
+            .Include(p => p.Appointments)
+            .ThenInclude(appt => appt.AppointmentFeedback)
+            .FirstOrDefaultAsync(p => p.Id.ToString() == patientId);
+        
+        if (patient is null)
+        {
+            response.ErrorCode = ErrorCode.NotFound;
+            response.ErrorMessage = $"Unable find to patient.";
+            return response;
+        }
+
+        var appointments  = patient.Appointments
+            .Select(appt => new AppointmentFeedbackResponse(appt.Id.ToString(), appt.AppointmentType,
+                appt.AppointmentFeedback.SubmittedDate is null ? "Incomplete" : "Completed", appt.AppointmentFeedback.SubmittedDate))
+            .ToList();
+        response.Data = new GetAppointmentsResponse(appointments);
         return response;
     }
 

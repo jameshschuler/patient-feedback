@@ -14,6 +14,7 @@ export function renderWithClient(client: QueryClient, ui: React.ReactElement) {
   };
 }
 
+// TODO: pass in queryClient instead?
 export const createWrapper = () => {
   const queryClient = new QueryClient({
     defaultOptions: {

@@ -1,6 +1,7 @@
 import { Skeleton } from "@/shared";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { useCreateAppointmentFeedback } from "../api/createAppointmentFeedback";
 import { QuestionAnswer, SaveFeedbackRequest, StepData } from "../types";
 import { Step } from "./Step";
@@ -105,9 +106,13 @@ export function FeedbackForm({
         </Skeleton>
         <Skeleton loading={loading} height="h-12">
           <div className="flex justify-between items-center">
-            <button className="btn bg-slate-100 hover:bg-slate-300">
+            <Link
+              className="btn bg-slate-100 hover:bg-slate-300"
+              type="button"
+              to={"/appointments"}
+            >
               Cancel
-            </button>
+            </Link>
             <div>
               {hasPrevStep && (
                 <button

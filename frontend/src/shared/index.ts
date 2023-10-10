@@ -1,3 +1,4 @@
+export * from "./components/DataTable";
 export * from "./components/Message";
 export * from "./components/RootLayout";
 export * from "./components/Skeleton";

@@ -21,6 +21,17 @@ export interface AppointmentFeedbackResponse {
   questions: Array<Question>;
 }
 
+export interface GetAllAppointmentsResponse {
+  appointments: Appointment[];
+}
+
+export interface Appointment {
+  appointmentId: string;
+  appointmentType: string;
+  status: string;
+  submittedDate: string;
+}
+
 export interface Question {
   text: string;
   order: number;

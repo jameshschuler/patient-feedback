@@ -58,6 +58,26 @@ public class AppointmentController : ControllerBase
         }
     }
 
+    [HttpGet("patient/{patientId}")]
+    public async Task<ActionResult<GetAppointmentResponse>> GetAppointments(string patientId)
+    {
+        try
+        {
+            var response = await _appointmentService.GetAppointments(patientId);
+
+            return response.ErrorCode switch
+            {
+                ErrorCode.NotFound => NotFound(response),
+                ErrorCode.BadRequest => BadRequest(response),
+                _ => Ok(response)
+            };
+        }
+        catch (Exception)
+        {
+            return Problem(statusCode: 500);
+        }
+    }
+
     [HttpPost("feedback")]
     public async Task<ActionResult<SaveAppointmentFeedbackResponse>> SaveAppointmentFeedback([FromBody] SaveFeedbackRequest request)
     {

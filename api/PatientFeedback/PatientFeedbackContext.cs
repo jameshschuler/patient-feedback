@@ -14,16 +14,27 @@ public class PatientFeedbackContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         
+        SeedAppointmentData(modelBuilder);
+    }
+
+    private void SeedAppointmentData(ModelBuilder modelBuilder)
+    {
         var doctorId = Guid.NewGuid();
         var patientId = Guid.NewGuid();
-        var appointmentId = Guid.NewGuid();
-        var diagnosisId = Guid.NewGuid();
+        var appointmentId1 = Guid.NewGuid();
+        var appointmentId2 = Guid.NewGuid();
+        var appointmentId3 = Guid.NewGuid();
+        var diagnosisId1 = Guid.NewGuid();
+        var diagnosisId2 = Guid.NewGuid();
+        var diagnosisId3 = Guid.NewGuid();
 
         var question1Id = Guid.NewGuid();
         var question2Id = Guid.NewGuid();
         var question3Id = Guid.NewGuid();
         
-        var appointmentFeedbackId = Guid.NewGuid();
+        var appointmentFeedbackId1 = Guid.NewGuid();
+        var appointmentFeedbackId2 = Guid.NewGuid();
+        var appointmentFeedbackId3 = Guid.NewGuid();
 
         modelBuilder.Entity<Doctor>().HasData(new List<Doctor>()
         {
@@ -85,7 +96,27 @@ public class PatientFeedbackContext : DbContext
         {
             new ()
             {
-                Id = appointmentId,
+                Id = appointmentId1,
+                Status = "finished",
+                AppointmentType = "Endocrinologist visit",
+                Start = DateTime.UtcNow,
+                End = DateTime.UtcNow.AddHours(2),
+                DoctorId = doctorId,
+                PatientId = patientId,
+            },
+            new ()
+            {
+                Id = appointmentId2,
+                Status = "finished",
+                AppointmentType = "Endocrinologist visit",
+                Start = DateTime.UtcNow,
+                End = DateTime.UtcNow.AddHours(2),
+                DoctorId = doctorId,
+                PatientId = patientId,
+            },
+            new ()
+            {
+                Id = appointmentId3,
                 Status = "finished",
                 AppointmentType = "Endocrinologist visit",
                 Start = DateTime.UtcNow,
@@ -99,8 +130,18 @@ public class PatientFeedbackContext : DbContext
         {
             new ()
             {
-                Id = appointmentFeedbackId,
-                AppointmentId = appointmentId,
+                Id = appointmentFeedbackId1,
+                AppointmentId = appointmentId1,
+            },
+            new ()
+            {
+                Id = appointmentFeedbackId2,
+                AppointmentId = appointmentId2,
+            },
+            new ()
+            {
+                Id = appointmentFeedbackId3,
+                AppointmentId = appointmentId3,
             }
         });
         
@@ -109,22 +150,57 @@ public class PatientFeedbackContext : DbContext
             new ()
             {
                 Id = Guid.NewGuid(),
-                AppointmentFeedbackId = appointmentFeedbackId,
+                AppointmentFeedbackId = appointmentFeedbackId1,
                 FeedbackQuestionId = question1Id,
                 Order = 1,
             },
             new ()
             {
                 Id = Guid.NewGuid(),
-                AppointmentFeedbackId = appointmentFeedbackId,
+                AppointmentFeedbackId = appointmentFeedbackId1,
                 FeedbackQuestionId = question2Id,
                 Order = 2,
             },
             new ()
             {
                 Id = Guid.NewGuid(),
-                AppointmentFeedbackId = appointmentFeedbackId,
+                AppointmentFeedbackId = appointmentFeedbackId1,
                 FeedbackQuestionId = question3Id,
+                Order = 3,
+            },
+            new ()
+            {
+                Id = Guid.NewGuid(),
+                AppointmentFeedbackId = appointmentFeedbackId2,
+                FeedbackQuestionId = question1Id,
+                Order = 1,
+            },
+            new ()
+            {
+                Id = Guid.NewGuid(),
+                AppointmentFeedbackId = appointmentFeedbackId2,
+                FeedbackQuestionId = question2Id,
+                Order = 2,
+            },
+            new ()
+            {
+                Id = Guid.NewGuid(),
+                AppointmentFeedbackId = appointmentFeedbackId3,
+                FeedbackQuestionId = question3Id,
+                Order = 1,
+            },
+            new ()
+            {
+                Id = Guid.NewGuid(),
+                AppointmentFeedbackId = appointmentFeedbackId3,
+                FeedbackQuestionId = question2Id,
+                Order = 2,
+            },
+            new ()
+            {
+                Id = Guid.NewGuid(),
+                AppointmentFeedbackId = appointmentFeedbackId3,
+                FeedbackQuestionId = question1Id,
                 Order = 3,
             }
         });
@@ -166,8 +242,22 @@ public class PatientFeedbackContext : DbContext
         {
             new ()
             {
-                Id = diagnosisId,
-                AppointmentId = appointmentId,
+                Id = diagnosisId1,
+                AppointmentId = appointmentId1,
+                LastUpdated = DateTime.UtcNow,
+                Status = "Final",
+            },
+            new ()
+            {
+                Id = diagnosisId2,
+                AppointmentId = appointmentId2,
+                LastUpdated = DateTime.UtcNow,
+                Status = "Final",
+            },
+            new ()
+            {
+                Id = diagnosisId3,
+                AppointmentId = appointmentId3,
                 LastUpdated = DateTime.UtcNow,
                 Status = "Final",
             }
@@ -178,7 +268,23 @@ public class PatientFeedbackContext : DbContext
             new ()
             {
                 Id = Guid.NewGuid(),
-                DiagnosisId = diagnosisId,
+                DiagnosisId = diagnosisId1,
+                System = "http://hl7.org/fhir/sid/icd-10",
+                Code = "E10-E14.9",
+                Name = "Diabetes without complications"
+            },
+            new ()
+            {
+                Id = Guid.NewGuid(),
+                DiagnosisId = diagnosisId2,
+                System = "http://hl7.org/fhir/sid/icd-10",
+                Code = "E10-E14.9",
+                Name = "Diabetes without complications"
+            },
+            new ()
+            {
+                Id = Guid.NewGuid(),
+                DiagnosisId = diagnosisId3,
                 System = "http://hl7.org/fhir/sid/icd-10",
                 Code = "E10-E14.9",
                 Name = "Diabetes without complications"
