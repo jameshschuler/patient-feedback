@@ -1,5 +1,5 @@
 import { Skeleton } from "@/shared";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateAppointmentFeedback } from "../api/createAppointmentFeedback";
 import { QuestionAnswer, SaveFeedbackRequest, StepData } from "../types";
@@ -19,8 +19,14 @@ export function FeedbackForm({
   steps,
 }: FeedbackFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
-  const [hasNextStep, setHasNextStep] = useState(true);
+  const [hasNextStep, setHasNextStep] = useState(false);
   const [hasPrevStep, setHasPrevStep] = useState(false);
+
+  useEffect(() => {
+    if (steps.length > 1) {
+      setHasNextStep(true);
+    }
+  }, [steps.length]);
 
   function handleNextStep() {
     const nextStep = currentStep + 1;
@@ -119,6 +125,7 @@ export function FeedbackForm({
                   className="btn bg-green-200 hover:bg-green-400 disabled:bg-gray-100"
                   disabled={!hasNextStep}
                   onClick={handleNextStep}
+                  data-testid="next-btn"
                 >
                   Next
                 </button>
@@ -132,6 +139,7 @@ export function FeedbackForm({
                     createMutation.isLoading ||
                     Object.keys(formState.errors).length !== 0
                   }
+                  data-testid="submit-btn"
                 >
                   Submit
                 </button>
