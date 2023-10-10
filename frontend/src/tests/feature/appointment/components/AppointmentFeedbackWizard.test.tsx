@@ -3,7 +3,6 @@ import { AppointmentFeedbackWizard } from "@/features/appointments/components/Ap
 import { queryClient } from "@/lib/react-query";
 import { createWrapper, renderWithClient } from "@/tests/utils";
 import { renderHook, waitFor } from "@testing-library/react";
-import nock from "nock";
 import { describe, expect, it } from "vitest";
 
 describe("AppointmentFeedbackWizard", () => {
@@ -14,25 +13,17 @@ describe("AppointmentFeedbackWizard", () => {
     ).toBeInTheDocument();
   });
 
-  // TODO: not mocking request / response correctly
   it("makes request to get appointment feedback questions", async () => {
     const appointmentId = "64f1b5a0-1f6e-4e59-ae95-a94b34e5619";
-    const scope = nock("https://localhost:7115/api/")
-      .get(`/appointment/${appointmentId}/feedback`)
-      .reply(200, {
-        data: {
-          appointmentId: appointmentId,
-        },
-      });
     const { result } = renderHook(
       () => useAppointmentFeedback({ appointmentId }),
       {
         wrapper: createWrapper(),
       }
     );
-    await waitFor(() => {
-      return result.current.isSuccess;
-    });
-    scope.done();
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data?.data.appointmentId).toBe("hello");
+    expect(result.current.data?.data.questions).toBeDefined();
+    expect(result.current.data?.data.questions.length).toBe(1);
   });
 });

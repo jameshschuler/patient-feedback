@@ -6,7 +6,7 @@ export function RootLayout() {
     <>
       <img
         src={BackgroundImage}
-        className="absolute h-full"
+        className="absolute h-full w-full"
         style={{ zIndex: -1 }}
       />
       <main className="mx-auto p-6 md:p-12 md:max-w-screen-2xl">

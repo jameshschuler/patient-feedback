@@ -1,3 +1,4 @@
+import { queryClient } from "@/lib/react-query";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
 
@@ -14,17 +15,8 @@ export function renderWithClient(client: QueryClient, ui: React.ReactElement) {
   };
 }
 
-// TODO: pass in queryClient instead?
 export const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-
-  return ({ children }) => (
+  return ({ children }: any) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 };
